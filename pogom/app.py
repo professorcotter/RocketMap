@@ -425,14 +425,8 @@ class Pogom(Flask):
                 d['error'] = 'Access denied'
             elif (request.args.get('password', None) ==
                   args.status_page_password):
-                max_status_age = args.status_page_filter
-                if max_status_age > 0:
-                    d['main_workers'] = MainWorker.get_recent(max_status_age)
-                    d['workers'] = WorkerStatus.get_recent(max_status_age)
-                else:
-                    d['main_workers'] = MainWorker.get_all()
-                    d['workers'] = WorkerStatus.get_all()
-
+                d['main_workers'] = MainWorker.get_all()
+                d['workers'] = WorkerStatus.get_all()
         return jsonify(d)
 
     def loc(self):
@@ -557,13 +551,8 @@ class Pogom(Flask):
 
         if request.form.get('password', None) == args.status_page_password:
             d['login'] = 'ok'
-            max_status_age = args.status_page_filter
-            if max_status_age > 0:
-                d['main_workers'] = MainWorker.get_recent(max_status_age)
-                d['workers'] = WorkerStatus.get_recent(max_status_age)
-            else:
-                d['main_workers'] = MainWorker.get_all()
-                d['workers'] = WorkerStatus.get_all()
+            d['main_workers'] = MainWorker.get_all()
+            d['workers'] = WorkerStatus.get_all()
             d['hashkeys'] = HashKeys.get_obfuscated_keys()
         else:
             d['login'] = 'failed'
